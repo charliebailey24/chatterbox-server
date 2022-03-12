@@ -17,15 +17,17 @@
   },
   "scripts": {
     "postinstall": "curl -s https://raw.githubusercontent.com/reactorcore/pomander/master/bin/install | bash",
-    "start:server": "node server/basic-server.js",
+    "start:server": "nodemon server/basic-server.js",
     "start:client": "npx live-server",
     "test": "mocha server/spec",
-    "lint": "eslint ./"
+    "lint": "eslint ./",
+    "start:hello": "node server/hello.js"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "mocha": "^8.2.1",
+    "nodemon": "^2.0.15",
     "request": "^2.88.2"
   }
 }

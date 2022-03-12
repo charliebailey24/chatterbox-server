@@ -11,8 +11,18 @@ this file and include it in basic-server.js so that it actually works.
 *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
 
 **************************************************************/
+var basicServer = require('./basic-server.js');
 
 var requestHandler = function(request, response) {
+
+  // The method here will always be a normal HTTP method/verb. The url is the full URL without the server, protocol or port.
+  const { method, url, headers } = request;
+  console.log('method:::', method);
+  console.log('url:::', url);
+  console.log('headers:::', headers);
+
+
+
   // Request and Response come from node's http module.
   //
   // They include information about both the incoming request, such as
@@ -33,7 +43,14 @@ var requestHandler = function(request, response) {
   var statusCode = 200;
 
   // See the note below about CORS headers.
-  var headers = defaultCorsHeaders;
+  var defaultCorsHeaders = {
+    'access-control-allow-origin': '*',
+    'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'access-control-allow-headers': 'content-type, accept, authorization',
+    'access-control-max-age': 10 // Seconds.
+  };
+
+  // var headers = defaultCorsHeaders;
 
   // Tell the client we are sending them plain text.
   //
@@ -52,7 +69,23 @@ var requestHandler = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  response.end('Hello, World!');
+  response.end(JSON.stringify('Hello, World'));
+
+  // conditional logic for each method type
+  // if method type is get
+  // send data from messages file to the client
+  // if method type is post
+  // retrieve data from request object and store in messages file
+  // if method type is options
+  // do something
+  // if method type is delete
+  // search through messages data and remove the target message
+  // if method type is put/patch
+  // do something
+};
+
+var testFunction = function() {
+  console.log('test function');
 };
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
@@ -64,9 +97,22 @@ var requestHandler = function(request, response) {
 //
 // Another way to get around this restriction is to serve you chat
 // client from this domain by setting up static file serving.
-var defaultCorsHeaders = {
-  'access-control-allow-origin': '*',
-  'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'access-control-allow-headers': 'content-type, accept, authorization',
-  'access-control-max-age': 10 // Seconds.
-};
+
+
+module.exports.requestHandler = requestHandler;
+module.exports.testFunction = testFunction;
+
+
+/*
+
+sub-problem 1: write a proper request handling function
+  a:
+
+
+
+
+sub-problem 1: creating a file to store data
+sub-problem 2: handle the request to store data in that file
+
+
+*/
