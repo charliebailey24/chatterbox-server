@@ -16,12 +16,32 @@ var basicServer = require('./basic-server.js');
 var requestHandler = function(request, response) {
 
   // The method here will always be a normal HTTP method/verb. The url is the full URL without the server, protocol or port.
-  const { method, url, headers } = request;
+
+  // STEP 1: get the method, url and headers of the incoming request
+
+  const method = request.method;
+  const url = request.url;
+  const reqHeaders = request.headers;
   console.log('method:::', method);
   console.log('url:::', url);
-  console.log('headers:::', headers);
+  console.log('reqHeaders:::', reqHeaders);
 
+  /*
+  STEP 2: handle each request method appropriately
 
+    if method type is GET
+      send data from messages file to the client
+    if method type is POST
+      retrieve data (request body) from request object and store in messages file
+    if method type is put/patch
+      update a resource (request body)
+    if method type is delete
+      search through messages data and remove the target message
+    if method type is options
+      do something
+  */
+
+  // STEP 3: need to rout the request to the correct api endpoint
 
   // Request and Response come from node's http module.
   //
@@ -50,7 +70,7 @@ var requestHandler = function(request, response) {
     'access-control-max-age': 10 // Seconds.
   };
 
-  // var headers = defaultCorsHeaders;
+  var headers = defaultCorsHeaders;
 
   // Tell the client we are sending them plain text.
   //
@@ -70,18 +90,6 @@ var requestHandler = function(request, response) {
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
   response.end(JSON.stringify('Hello, World'));
-
-  // conditional logic for each method type
-  // if method type is get
-  // send data from messages file to the client
-  // if method type is post
-  // retrieve data from request object and store in messages file
-  // if method type is options
-  // do something
-  // if method type is delete
-  // search through messages data and remove the target message
-  // if method type is put/patch
-  // do something
 };
 
 var testFunction = function() {
@@ -106,13 +114,9 @@ module.exports.testFunction = testFunction;
 /*
 
 sub-problem 1: write a proper request handling function
-  a:
-
-
-
-
-sub-problem 1: creating a file to store data
-sub-problem 2: handle the request to store data in that file
+sub-problem 2: where does the api endpoint fit in the server architecture
+sub-problem 3: getting the resources requested at the api endpoint
+sub-problem 4:
 
 
 */
